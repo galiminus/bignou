@@ -1,0 +1,10 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    boson (1.2.4)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  boson

@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+
+require 'boson/runner'
+require 'pathname'
+
+class BignouRunner < Boson::Runner
+
+  LXC_ROOT = "/var/lib/lxc"
+
+  def initialize
+    cmd "mkdir -p '#{root}' '#{aufs_root}'"
+  end
+
+  desc "Create virtual machine name from base"
+  def create(base, name)
+    cmd "mount -t aufs -o br=#{aufs_root.join(name)}:#{root.join(base)} none #{root.join(name)}"
+    cmd "#{ENV['EDITOR'] || 'nano'} #{root.join(name, 'config')}"
+  end
+
+  private
+  def root
+    Pathname.new LXC_ROOT
+  end
+
+  def aufs_root
+    root.join ".aufs"
+  end
+
+  def cmd(command)
+    puts command
+    system command
+  end
+end
+
+BignouRunner.start
