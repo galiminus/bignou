@@ -8,12 +8,34 @@ class BignouRunner < Boson::Runner
   LXC_ROOT = "/var/lib/lxc"
 
   def initialize
-    cmd "mkdir -p '#{root}' '#{aufs_root}'"
+    system "mkdir -p '#{root}' '#{aufs_root}'"
   end
 
-  desc "Create virtual machine name from base"
-  def create(base, name)
-    cmd "mount -t aufs -o br=#{aufs_root.join(name)}:#{root.join(base)} none #{root.join(name)}"
+  desc "Create virtual machine [name] from -b [base]"
+  option :base, type: :string
+  def create(name, options)
+    cmd "printf '\nnone #{root.join(name)} aufs br:#{aufs_root.join(name)}:#{root.join(options[:base])} 0 0\n' >> /etc/fstab"
+    cmd "mount #{root.join(name)}"
+    config name
+  end
+
+  desc "Start virtual machine [name]"
+  def start(name)
+    cmd "lxc-start -d -n #{name}"
+  end
+
+  desc "Stop virtual machine [name]"
+  def stop(name)
+    cmd "lxc-stop -n #{name}"
+  end
+
+  desc "List all virtual machines"
+  def list
+    cmd "lxc-ls --fancy"
+  end
+
+  desc "Configure virtual machine [name]"
+  def config(name)
     cmd "#{ENV['EDITOR'] || 'nano'} #{root.join(name, 'config')}"
   end
 
