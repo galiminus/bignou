@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'bignou'
-  s.version     = '0.1.0'
+  s.version     = '0.1.1'
   s.date        = '2013-12-09'
   s.summary     = "Bignou"
   s.description = "Manage VM with LXC and AUFS"
@@ -10,7 +10,6 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://github.com/phorque/bignou'
   s.license     = 'MIT'
 
-  s.require_path = 'lib'
   s.add_dependency "boson"
 
   s.executables  = ['bignou']
