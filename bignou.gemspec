@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'bignou'
-  s.version     = '0.1.2'
+  s.version     = '0.1.3'
   s.date        = '2013-12-09'
   s.summary     = "Bignou"
   s.description = "Manage VM with LXC and AUFS"

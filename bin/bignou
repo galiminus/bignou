@@ -14,9 +14,12 @@ class BignouRunner < Boson::Runner
   desc "Create virtual machine [name] from -b [base]"
   option :base, type: :string
   def create(name, options)
-    cmd "printf '\nnone #{root.join(name)} aufs br:#{aufs_root.join(name)}:#{root.join(options[:base])} 0 0\n' >> /etc/fstab"
-    cmd "mount #{root.join(name)}"
-    config name
+    cmd <<-eos
+     mkdir -p #{root.join(name)} #{aufs_root.join(name)} &&
+     printf '\nnone #{root.join(name)} aufs br:#{aufs_root.join(name)}:#{root.join(options[:base])} 0 0\n' >> /etc/fstab &&
+     mount #{root.join(name)} &&
+     #{ENV['EDITOR'] || 'nano'} #{root.join(name, 'config')}
+    eos
   end
 
   desc "Start virtual machine [name]"
