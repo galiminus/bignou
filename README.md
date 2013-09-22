@@ -54,3 +54,9 @@ bignou stop my_new_machine
 ```
 bignou list
 ```
+
+## Name
+
+A *biniou* is a Breton bagpipe. I always thought it was spelled
+    "bignou" but I got it wrong and I don't want to rename the gem and
+    the repository.
